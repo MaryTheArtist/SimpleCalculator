@@ -1,0 +1,62 @@
+﻿@model SimpleCalculator.Models.Calculation
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+    <form asp-controller="Calculator" asp-action="Index" method="post">
+        <div class="form-group">
+            <div class="row">
+                <label asp-for="FirstNumber" class="col-lg-2">Number 1</label>
+                <input type="number" asp-for="FirstNumber" value="@Model.FirstNumber" class="col-lg-4" id="firstNumber" onclick="el = document.getElementById('firstNumber'); if (el.value == '0') { el.value = ''; }" />
+                <span asp-validation-for="FirstNumber" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <label asp-for="SecondNumber" class="col-lg-2">Number 2</label>
+                <input type="number" asp-for="SecondNumber" class="col-lg-4" value="@Model.SecondNumber" id="secondNumber" onclick="el = document.getElementById('secondNumber'); if (el.value == '0') { el.value = ''; }" />
+                <span asp-validation-for="SecondNumber" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <label asp-for="OperationType" class="col-lg-2"></label>
+                <select asp-for="OperationType" class="col-lg-4" asp-items="Html.GetEnumSelectList<OperationType>()">
+                    <option selected="selected" value="OperationType">Select</option>
+                </select>
+                <span asp-validation-for="OperationType" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <label asp-for="Result" class="col-lg-2"></label>
+                <input type="number" disabled="disabled" class="col-lg-2" asp-for="Result" />
+            </div>
+            <div>
+                <input type="submit" style="position: center" id="submitBtn" class="align-items-lg-center" value="Calculate" asp-action="Index" />
+            </div>
+        </div>
+
+        <h4 style="color:red">@ViewBag.ErrorOutput</h4>
+
+    </form>
+
+<div>
+    <br />
+    <hr />
+    <h3>Last 5 Calculations:</h3>
+    <ul>
+        @if (Model.LastFiveCalculations != null)
+        {
+            foreach (var lastCalc in Model.LastFiveCalculations)
+            {
+                if (@lastCalc != null)
+                {
+                    <li>
+                        @lastCalc;
+                    </li>
+                }
+
+
+            }
+        }
+
+    </ul>
+
+</div>
